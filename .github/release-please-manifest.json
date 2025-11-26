@@ -1,0 +1,5 @@
+{
+    "src/modules/blueprints/condacc": "1.0.2",
+    "src/modules/blueprints/pimgroups": "1.0.0",
+    "src/modules/blueprints/azureterraformprereq": "1.0.0"
+}
