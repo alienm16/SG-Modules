@@ -16,16 +16,15 @@ resource "azuread_application" "AppRegistration" {
 
 
 # Création du service principal
-#resource "azuread_service_principal" "ServicePrincipal" {
-#  client_id                    = azuread_application.AppRegistration.client_id
-#  app_role_assignment_required = false
-#  owners                       = [data.azuread_client_config.current.object_id]
+resource "azuread_service_principal" "ServicePrincipal" {
+  client_id                    = azuread_application.AppRegistration.client_id
+  app_role_assignment_required = false
+  owners                       = [data.azuread_client_config.current.object_id]
 
-#  depends_on = [
-#    azuread_application.AppRegistration,
-#    time_sleep.wait_30_seconds
-#  ]
+  depends_on = [
+    azuread_application.AppRegistration
+  ]
 
-#}
+}
 
 
