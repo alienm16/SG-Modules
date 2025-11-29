@@ -14,6 +14,23 @@ variable "tenant" {
   default     = "prod"
 }
 
+# GitHub Variables
+variable "github_organization" {
+  description = "Organisation GitHub"
+  type        = string
+  default     = "beneva-int"
+}
+
+variable "github_repository" {
+  description = "Nom du repository GitHub"
+  type        = string
+}
+
+variable "github_branch" {
+  description = "Branche principale GitHub pour cet environnement"
+  type        = string
+}
+
 # Consentement automatique
 variable "auto_grant_admin_consent" {
   description = "Accorder automatiquement le consentement administrateur pour les permissions Microsoft Graph"
