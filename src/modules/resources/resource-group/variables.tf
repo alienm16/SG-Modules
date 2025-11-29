@@ -20,3 +20,9 @@ variable "use_existing" {
   type        = bool
   default     = false
 }
+
+variable "manage_tags" {
+  description = "Gérer les tags du resource group existant (nécessite use_existing = true)"
+  type        = bool
+  default     = true
+}
