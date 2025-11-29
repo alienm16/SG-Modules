@@ -28,3 +28,23 @@ resource "azuread_service_principal" "ServicePrincipal" {
 }
 
 
+# Configuration des Federated Credentials pour les branches
+resource "azuread_application_federated_identity_credential" "github_branches" {
+  application_id = azuread_application.AzureTerraformPreReq-App.id
+  display_name   = "github-${var.github_repository}-${var.github_branch}-${var.tenant}"
+  description    = "GitHub Actions credential for ${var.github_organization}/${var.github_repository} on branch ${var.github_branch} - ENV: ${upper(var.tenant)}"
+  audiences      = ["api://AzureADTokenExchange"]
+  issuer         = "https://token.actions.githubusercontent.com"
+  subject        = "repo:${var.github_organization}/${var.github_repository}:ref:refs/heads/${var.github_branch}"
+}
+
+# Configuration des Federated Credentials pour les Pull Requests
+resource "azuread_application_federated_identity_credential" "github_pull_requests" {
+  application_id = azuread_application.AzureTerraformPreReq-App.id
+  display_name   = "github-${var.github_repository}-pull-request-${var.tenant}"
+  description    = "GitHub Actions credential for ${var.github_organization}/${var.github_repository} pull requests - ENV: ${upper(var.tenant)}"
+  audiences      = ["api://AzureADTokenExchange"]
+  issuer         = "https://token.actions.githubusercontent.com"
+  subject        = "repo:${var.github_organization}/${var.github_repository}:pull_request"
+}
+
