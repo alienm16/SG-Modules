@@ -14,7 +14,6 @@ resource "azuread_application" "AppRegistration" {
 
 }
 
-
 # Création du service principal
 resource "azuread_service_principal" "ServicePrincipal" {
   client_id                    = azuread_application.AppRegistration.client_id
@@ -26,7 +25,6 @@ resource "azuread_service_principal" "ServicePrincipal" {
   ]
 
 }
-
 
 # Configuration des Federated Credentials pour les branches
 resource "azuread_application_federated_identity_credential" "github_branches" {
