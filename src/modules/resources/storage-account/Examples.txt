@@ -1,0 +1,119 @@
+# Exemple 1: Créer un nouveau storage account avec un nouveau RG
+module "storage_nouveau" {
+  source = "./modules/storage-account"
+
+  storage_account_name  = "stmonprojetprod"
+  resource_group_name   = "rg-storage-prod"
+  location              = "canadacentral"
+  use_existing_rg       = false
+  use_existing_storage  = false
+
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  account_kind             = "StorageV2"
+  access_tier              = "Hot"
+
+  containers = [
+    {
+      name                  = "documents"
+      container_access_type = "private"
+    },
+    {
+      name                  = "images"
+      container_access_type = "private"
+    },
+    {
+      name                  = "public-assets"
+      container_access_type = "blob"
+    }
+  ]
+
+  file_shares = [
+    {
+      name  = "shared-files"
+      quota = 100
+    }
+  ]
+
+  tags = {
+    Environment = "Production"
+    ManagedBy   = "Terraform"
+  }
+}
+
+# Exemple 2: Ajouter des conteneurs à un storage account existant
+module "storage_conteneurs_supplementaires" {
+  source = "./modules/storage-account"
+
+  storage_account_name  = "stexistant"
+  resource_group_name   = "rg-storage-shared"
+  use_existing_rg       = true
+  use_existing_storage  = true
+
+  containers = [
+    {
+      name                  = "nouveau-dossier-1"
+      container_access_type = "private"
+    },
+    {
+      name                  = "nouveau-dossier-2"
+      container_access_type = "private"
+    }
+  ]
+
+  file_shares = [
+    {
+      name  = "nouveau-partage"
+      quota = 50
+    }
+  ]
+}
+
+# Exemple 3: Storage account dans canadaeast
+module "storage_dev" {
+  source = "./modules/storage-account"
+
+  storage_account_name  = "stmonprojetdev"
+  resource_group_name   = "rg-storage-dev"
+  location              = "canadaeast"
+  use_existing_rg       = false
+  use_existing_storage  = false
+
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  containers = [
+    {
+      name = "test-data"
+    }
+  ]
+
+  tags = {
+    Environment = "Development"
+  }
+}
+
+# Exemple 4: Validation échouera si location invalide
+# module "storage_invalide" {
+#   source = "./modules/storage-account"
+#
+#   storage_account_name = "stinvalide"
+#   resource_group_name  = "rg-test"
+#   location             = "eastus"  # ERREUR: Seuls canadacentral et canadaeast sont permis
+# }
+
+# Outputs
+output "storage_nouveau_info" {
+  value = {
+    name                 = module.storage_nouveau.storage_account_name
+    id                   = module.storage_nouveau.storage_account_id
+    blob_endpoint        = module.storage_nouveau.primary_blob_endpoint
+    containers           = module.storage_nouveau.containers
+    file_shares          = module.storage_nouveau.file_shares
+  }
+}
+
+output "storage_nouveau_connection" {
+  value     = module.storage_nouveau.primary_connection_string
+  sensitive = true
+}
