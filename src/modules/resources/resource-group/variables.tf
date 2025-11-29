@@ -14,3 +14,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "use_existing" {
+  description = "Utiliser un resource group existant (true) ou créer un nouveau (false)"
+  type        = bool
+  default     = false
+}

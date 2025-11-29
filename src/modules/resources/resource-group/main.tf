@@ -1,6 +1,5 @@
-# Crée le resource group seulement s'il n'existe pas
 resource "azurerm_resource_group" "this" {
-  count    = try(data.azurerm_resource_group.existing.id, null) == null ? 1 : 0
+  count    = var.use_existing ? 0 : 1
   name     = var.resource_group_name
   location = var.location
   tags     = var.tags
