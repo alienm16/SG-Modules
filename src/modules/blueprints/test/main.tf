@@ -21,7 +21,7 @@ module "storage_account" {
   storage_account_name                             = var.storage_account_name
   resource_group_name                              = var.resource_group_name != null ? module.resource_group[0].resource_group_name : var.resource_group_name
   location                                         = var.resource_group_name != null ? module.resource_group[0].location : var.location
-  use_existing_rg                                  = var.resource_group_name != null ? false : var.use_existing_rg
+  use_existing_rg                                  = var.resource_group_name != null ? true : var.use_existing_rg
   use_existing_storage                             = var.use_existing_storage
   storage_account_tier                             = var.storage_account_tier
   storage_account_replication_type                 = var.storage_account_replication_type
