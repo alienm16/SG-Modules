@@ -94,3 +94,33 @@ resource "azuread_application_federated_identity_credential" "github_pull_reques
   subject        = "repo:${var.github_organization}/${var.github_repository}:pull_request"
 }
 
+# ====================================
+# RBAC Role Assignments
+# ====================================
+
+# Attribution du rôle "Reader" sur le Resource Group
+resource "azurerm_role_assignment" "resource_group_reader" {
+  count                = var.resource_group_name != null ? 1 : 0
+  scope                = module.resource_group[0].resource_group_id
+  role_definition_name = "Reader"
+  principal_id         = azuread_service_principal.ServicePrincipal.object_id
+
+  depends_on = [
+    azuread_service_principal.ServicePrincipal,
+    module.resource_group
+  ]
+}
+
+# Attribution du rôle "Storage Blob Data Contributor" sur le Storage Account
+resource "azurerm_role_assignment" "terraform_state_contributor" {
+  count                = var.storage_account_name != null ? 1 : 0
+  scope                = module.storage_account[0].storage_account_id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azuread_service_principal.ServicePrincipal.object_id
+
+  depends_on = [
+    azuread_service_principal.ServicePrincipal,
+    module.storage_account
+  ]
+}
+

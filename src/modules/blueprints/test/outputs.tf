@@ -88,3 +88,17 @@ output "service_principal_object_id" {
   description = "Object ID du service principal"
   value       = azuread_service_principal.ServicePrincipal.object_id
 }
+
+# ====================================
+# RBAC Role Assignments Outputs
+# ====================================
+output "resource_group_reader_role_assignment_id" {
+  description = "ID de l'attribution du rôle Reader sur le Resource Group"
+  value       = var.resource_group_name != null ? azurerm_role_assignment.resource_group_reader[0].id : null
+}
+
+output "storage_contributor_role_assignment_id" {
+  description = "ID de l'attribution du rôle Storage Blob Data Contributor sur le Storage Account"
+  value       = var.storage_account_name != null ? azurerm_role_assignment.terraform_state_contributor[0].id : null
+}
+
