@@ -224,3 +224,10 @@ variable "auto_grant_admin_consent" {
   }
 
 }
+
+# Permissions Microsoft Graph
+variable "graph_application_permissions" {
+  description = "Liste des permissions d'application Microsoft Graph (ex: ['User.Read.All', 'Group.ReadWrite.All'])"
+  type        = list(string)
+  default     = []
+}

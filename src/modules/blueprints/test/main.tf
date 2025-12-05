@@ -60,6 +60,24 @@ resource "azuread_application" "AppRegistration" {
     requested_access_token_version = 2
   }
 
+  # Configuration des permissions Microsoft Graph (uniquement permissions d'application)
+  dynamic "required_resource_access" {
+    for_each = length(local.required_application_permissions) > 0 ? [1] : []
+
+    content {
+      resource_app_id = data.azuread_service_principal.microsoft_graph.client_id # Microsoft Graph
+
+      dynamic "resource_access" {
+        for_each = local.required_application_permissions
+
+        content {
+          id   = resource_access.value.id
+          type = resource_access.value.type
+        }
+      }
+    }
+  }
+
 }
 
 # Création du service principal
@@ -72,6 +90,24 @@ resource "azuread_service_principal" "ServicePrincipal" {
     azuread_application.AppRegistration
   ]
 
+}
+
+# Consentement automatique - Assignation des rôles d'application
+resource "azuread_app_role_assignment" "grant_graph_permissions" {
+  # Créer seulement si le consentement automatique est activé ET qu'il y a des permissions
+  for_each = var.auto_grant_admin_consent && length(local.required_application_permissions) > 0 ? {
+    for idx, permission in local.required_application_permissions :
+    permission.id => permission
+  } : {}
+
+  app_role_id         = each.value.id
+  principal_object_id = azuread_service_principal.ServicePrincipal.object_id
+  resource_object_id  = data.azuread_service_principal.microsoft_graph.object_id
+
+  depends_on = [
+    azuread_application.AppRegistration,
+    azuread_service_principal.ServicePrincipal
+  ]
 }
 
 # Configuration des Federated Credentials pour les branches
