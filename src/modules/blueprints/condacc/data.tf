@@ -11,7 +11,7 @@ data "azuread_domains" "current" {}
 
 # Récupérer les objects id des breakglass pour les exclures des règles d'accès conditionnel
 data "azuread_users" "breakglass" {
-  user_principal_names = ["tenantadmin@${local.tenant_domain}"]
+  user_principal_names = ["tenantadmin@${local.tenant_domain}", "sgauvin@${local.tenant_domain}"]
 }
 
 # Récupérer les objects id des utilisateurs exclus dans la règle d'accès conditionnel
