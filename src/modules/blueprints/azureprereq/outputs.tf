@@ -1,4 +1,12 @@
 # ====================================
+# Subscription Outputs
+# ====================================
+output "subscription_id" {
+  description = "ID de la souscription Azure utilisée"
+  value       = var.resource_group_name != null ? module.resource_group[0].subscription_id : null
+}
+
+# ====================================
 # Resource Group Outputs
 # ====================================
 output "resource_group_name" {

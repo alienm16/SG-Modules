@@ -5,6 +5,8 @@ module "resource_group" {
   count  = var.resource_group_name != null ? 1 : 0
   source = "../../resources/resource-group"
 
+  subscription_id     = var.subscription_id
+  subscription_name   = var.subscription_name
   resource_group_name = var.resource_group_name
   location            = var.location
   use_existing        = var.use_existing_rg
