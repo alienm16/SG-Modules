@@ -38,6 +38,8 @@ module "storage_account" {
   storage_network_rules_enabled                    = var.storage_network_rules_enabled
   storage_network_rules_default_action             = var.storage_network_rules_default_action
   storage_network_rules_ip_rules                   = var.storage_network_rules_ip_rules
+  storage_network_rules_allowed_sites              = var.storage_network_rules_allowed_sites
+  storage_network_rules_allow_custom_ip            = var.storage_network_rules_allow_custom_ip
   storage_network_rules_virtual_network_subnet_ids = var.storage_network_rules_virtual_network_subnet_ids
   storage_network_rules_bypass                     = var.storage_network_rules_bypass
   storage_containers                               = var.storage_containers

@@ -156,6 +156,25 @@ variable "storage_network_rules_ip_rules" {
   default     = []
 }
 
+variable "storage_network_rules_allowed_sites" {
+  description = "Liste des sites autorisés prédéfinis pour l'accès (zscaler, beneva, aws_beneva). Si vide, utilise storage_network_rules_ip_rules"
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition = alltrue([
+      for site in var.storage_network_rules_allowed_sites : contains(["zscaler", "beneva", "aws_beneva"], site)
+    ])
+    error_message = "Les sites autorisés sont : zscaler, beneva, aws_beneva."
+  }
+}
+
+variable "storage_network_rules_allow_custom_ip" {
+  description = "Permettre l'utilisation d'IPs personnalisées via storage_network_rules_ip_rules (défaut: false pour sécurité)"
+  type        = bool
+  default     = false
+}
+
 variable "storage_network_rules_virtual_network_subnet_ids" {
   description = "Liste des IDs de subnets Azure autorisés"
   type        = list(string)

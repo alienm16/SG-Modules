@@ -30,7 +30,7 @@ resource "azurerm_storage_account" "this" {
     for_each = var.storage_network_rules_enabled ? [1] : []
     content {
       default_action             = var.storage_network_rules_default_action
-      ip_rules                   = var.storage_network_rules_ip_rules
+      ip_rules                   = local.resolved_ip_rules
       virtual_network_subnet_ids = var.storage_network_rules_virtual_network_subnet_ids
       bypass                     = var.storage_network_rules_bypass
     }
