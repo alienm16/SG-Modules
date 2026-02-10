@@ -1,3 +1,8 @@
+output "subscription_id" {
+  description = "ID de la souscription Azure utilisée"
+  value       = local.subscription_id
+}
+
 output "resource_group_name" {
   description = "Nom du resource group"
   value       = local.resource_group.name
