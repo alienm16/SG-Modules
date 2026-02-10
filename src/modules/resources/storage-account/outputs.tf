@@ -1,3 +1,8 @@
+output "subscription_id" {
+  description = "ID de la souscription Azure utilisée"
+  value       = module.resource_group.subscription_id
+}
+
 output "storage_account_id" {
   description = "ID du storage account"
   value       = local.storage_account.id

@@ -2,6 +2,8 @@
 module "resource_group" {
   source = "../resource-group"
 
+  subscription_id     = var.subscription_id
+  subscription_name   = var.subscription_name
   resource_group_name = var.resource_group_name
   location            = var.location
   use_existing        = var.use_existing_rg

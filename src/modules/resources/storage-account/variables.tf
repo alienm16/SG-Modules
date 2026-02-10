@@ -1,3 +1,21 @@
+# ====================================
+# Subscription Variables
+# ====================================
+variable "subscription_id" {
+  description = "ID de la souscription Azure (optionnel). Si non fourni, utilise la souscription par défaut du provider"
+  type        = string
+  default     = null
+}
+
+variable "subscription_name" {
+  description = "Nom de la souscription Azure (optionnel). Ignoré si subscription_id est fourni"
+  type        = string
+  default     = null
+}
+
+# ====================================
+# Storage Account Variables
+# ====================================
 variable "storage_account_name" {
   description = "Nom du storage account (3-24 caractères alphanumériques en minuscules)"
   type        = string

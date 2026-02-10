@@ -20,6 +20,8 @@ module "storage_account" {
   count  = var.storage_account_name != null ? 1 : 0
   source = "../../resources/storage-account"
 
+  subscription_id                                  = var.subscription_id
+  subscription_name                                = var.subscription_name
   storage_account_name                             = var.storage_account_name
   resource_group_name                              = var.resource_group_name != null ? module.resource_group[0].resource_group_name : var.resource_group_name
   location                                         = var.resource_group_name != null ? module.resource_group[0].location : var.location
